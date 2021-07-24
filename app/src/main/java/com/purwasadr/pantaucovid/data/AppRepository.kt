@@ -1,12 +1,16 @@
 package com.purwasadr.pantaucovid.data
 
+import androidx.room.withTransaction
 import com.purwasadr.pantaucovid.data.source.local.ILocalDataSource
 import com.purwasadr.pantaucovid.data.source.local.entity.CityEntity
+import com.purwasadr.pantaucovid.data.source.local.entity.HospitalEntity
 import com.purwasadr.pantaucovid.data.source.local.entity.toDomain
+import com.purwasadr.pantaucovid.data.source.local.room.AppDatabase
 import com.purwasadr.pantaucovid.data.source.remote.IRemoteDataSource
 import com.purwasadr.pantaucovid.data.source.remote.network.ApiResponse
 import com.purwasadr.pantaucovid.data.source.remote.response.CityResponse
 import com.purwasadr.pantaucovid.data.source.remote.response.CovidResponse
+import com.purwasadr.pantaucovid.data.source.remote.response.HospitalResponse
 import com.purwasadr.pantaucovid.data.source.remote.response.ProvinceResponse
 import com.purwasadr.pantaucovid.data.source.remote.response.toEntity
 import com.purwasadr.pantaucovid.model.Covid
@@ -17,7 +21,8 @@ import javax.inject.Inject
 
 class AppRepository @Inject constructor(
     private val remoteDataSource: IRemoteDataSource,
-    private val localDataSource: ILocalDataSource
+    private val localDataSource: ILocalDataSource,
+    private val database: AppDatabase
 ) : IAppRepository {
 
     override fun getCovidData() = object : NetworkBoundResource<Covid?, CovidResponse>() {
@@ -72,6 +77,32 @@ class AppRepository @Inject constructor(
                     localDataSource.insertCities(it)
                 }
             }
+        }.asFlow()
+
+    override fun getHospitals(
+        provinceId: String,
+        cityId: String
+    ): Flow<Resource<List<HospitalEntity>>> =
+        object : NetworkBoundResource<List<HospitalEntity>, HospitalResponse>() {
+            override fun loadFromDB(): Flow<List<HospitalEntity>> =
+                database.hospitalDao().getHospitals()
+
+            override fun shouldFetch(): Boolean = true
+
+            override suspend fun createCall(): Flow<ApiResponse<HospitalResponse>> =
+                remoteDataSource.getHospitals(provinceId, cityId)
+
+            override suspend fun saveCallResult(data: HospitalResponse) {
+                data.toEntity()?.also {
+                    database.withTransaction {
+                        database.hospitalDao().deleteAll()
+                        database.hospitalDao().insert(it)
+                    }
+
+                }
+
+            }
+
         }.asFlow()
 
 }
