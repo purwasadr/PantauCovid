@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp"
-        android:layout_marginBottom="32dp"
         style="@style/Widget.MaterialComponents.AppBarLayout.Surface">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -51,5 +50,6 @@
         android:id="@+id/list_hospital"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
