@@ -1,6 +1,7 @@
 package com.purwasadr.pantaucovid.data.source.remote.network
 
 import com.purwasadr.pantaucovid.BuildConfig
+import com.purwasadr.pantaucovid.data.source.remote.response.CityResponse
 import com.purwasadr.pantaucovid.data.source.remote.response.CovidResponse
 import com.purwasadr.pantaucovid.data.source.remote.response.ProvinceResponse
 import okhttp3.OkHttpClient
@@ -8,14 +9,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface HospitalService {
     @GET("api/get-provinces")
     suspend fun getProvince(): ProvinceResponse
 
+    @GET("api/get-cities?")
+    suspend fun getCities(
+        @Query("provinceid") provinceId: String
+    ): CityResponse
     companion object {
-        fun create(): ApiService {
+        fun create(): HospitalService {
             val client = OkHttpClient.Builder()
                 .also {
                     if (BuildConfig.DEBUG) {
@@ -34,7 +40,7 @@ interface HospitalService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
-                .create(ApiService::class.java)
+                .create(HospitalService::class.java)
         }
     }
 }
