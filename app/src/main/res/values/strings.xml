@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PantauCovid</string>
+    <string name="hospital_til_hint_province">Province</string>
 </resources>
