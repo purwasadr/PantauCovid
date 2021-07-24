@@ -13,8 +13,8 @@ interface CovidDao {
     fun getCovidData(): Flow<CovidEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(filmDetail: CovidEntity)
+    suspend fun insert(entity: CovidEntity)
 
     @Query("DELETE FROM covid")
-    suspend fun deleteAllFilmDetail()
+    suspend fun deleteAll()
 }
