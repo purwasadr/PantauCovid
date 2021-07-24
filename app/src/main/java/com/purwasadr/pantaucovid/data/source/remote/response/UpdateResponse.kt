@@ -7,8 +7,5 @@ data class UpdateResponse(
     val penambahan: PenambahanResponse? = null,
 
     @field:SerializedName("total")
-    val total: Total? = null,
-
-//    @field:SerializedName("harian")
-//    val harian: List<HarianItem?>? = null
+    val total: TotalResponse? = null,
 )
