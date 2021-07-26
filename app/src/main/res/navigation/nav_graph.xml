@@ -18,4 +18,11 @@
         android:label="Hospital"
         tools:layout="@layout/fragment_hospital" >
     </fragment>
+
+    <fragment
+        android:id="@+id/provinceFragment"
+        android:name="com.purwasadr.pantaucovid.ui.hospital.ProvinceFragment"
+        android:label="Hospital"
+        tools:layout="@layout/fragment_province" >
+    </fragment>
 </navigation>

@@ -10,139 +10,147 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/txt_jumlah_kasus_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Jumlah Kasus Hari ini"
-            android:textAppearance="?attr/textAppearanceHeadline5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txt_positive_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Positif"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
-            app:layout_constraintEnd_toStartOf="@id/txt_sembuh_info"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_jumlah_kasus_info" />
+            <TextView
+                android:id="@+id/txt_jumlah_kasus_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Jumlah Kasus Hari ini"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txt_positive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{covid.jumlahPositif.toString()}"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
-            app:layout_constraintEnd_toEndOf="@id/txt_positive_info"
-            app:layout_constraintStart_toStartOf="@id/txt_positive_info"
-            app:layout_constraintTop_toBottomOf="@id/txt_positive_info"
-            tools:text="60000" />
+            <TextView
+                android:id="@+id/txt_positive_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Positif"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
+                app:layout_constraintEnd_toStartOf="@id/txt_sembuh_info"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_jumlah_kasus_info" />
 
-        <TextView
-            android:id="@+id/txt_sembuh_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Sembuh"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
-            app:layout_constraintStart_toEndOf="@id/txt_positive_info"
-            app:layout_constraintEnd_toStartOf="@id/txt_death_info"
-            app:layout_constraintTop_toBottomOf="@id/txt_jumlah_kasus_info" />
+            <TextView
+                android:id="@+id/txt_positive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:textDecimalFormat="@{covid.jumlahPositif}"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
+                app:layout_constraintEnd_toEndOf="@id/txt_positive_info"
+                app:layout_constraintStart_toStartOf="@id/txt_positive_info"
+                app:layout_constraintTop_toBottomOf="@id/txt_positive_info"
+                tools:text="60000" />
 
-        <TextView
-            android:id="@+id/txt_sembuh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{covid.jumlahSembuh.toString()}"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
-            app:layout_constraintEnd_toEndOf="@id/txt_sembuh_info"
-            app:layout_constraintStart_toStartOf="@id/txt_sembuh_info"
-            app:layout_constraintTop_toBottomOf="@id/txt_positive_info"
-            tools:text="60000" />
+            <TextView
+                android:id="@+id/txt_sembuh_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Sembuh"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
+                app:layout_constraintEnd_toStartOf="@id/txt_death_info"
+                app:layout_constraintStart_toEndOf="@id/txt_positive_info"
+                app:layout_constraintTop_toBottomOf="@id/txt_jumlah_kasus_info" />
 
-        <TextView
-            android:id="@+id/txt_death_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Meninggal"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/txt_sembuh_info"
-            app:layout_constraintTop_toBottomOf="@id/txt_jumlah_kasus_info"/>
+            <TextView
+                android:id="@+id/txt_sembuh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:textDecimalFormat="@{covid.jumlahSembuh}"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
+                app:layout_constraintEnd_toEndOf="@id/txt_sembuh_info"
+                app:layout_constraintStart_toStartOf="@id/txt_sembuh_info"
+                app:layout_constraintTop_toBottomOf="@id/txt_positive_info"
+                tools:text="60000" />
 
-        <TextView
-            android:id="@+id/txt_death"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{covid.jumlahMeninggal.toString()}"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
-            app:layout_constraintEnd_toEndOf="@id/txt_death_info"
-            app:layout_constraintStart_toStartOf="@id/txt_death_info"
-            app:layout_constraintTop_toBottomOf="@id/txt_positive_info"
-            tools:text="60000" />
+            <TextView
+                android:id="@+id/txt_death_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Meninggal"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txt_sembuh_info"
+                app:layout_constraintTop_toBottomOf="@id/txt_jumlah_kasus_info" />
 
-        <!--  #################################################  -->
+            <TextView
+                android:id="@+id/txt_death"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:textDecimalFormat="@{covid.jumlahMeninggal}"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
+                app:layout_constraintEnd_toEndOf="@id/txt_death_info"
+                app:layout_constraintStart_toStartOf="@id/txt_death_info"
+                app:layout_constraintTop_toBottomOf="@id/txt_positive_info"
+                tools:text="60000" />
 
-        <TextView
-            android:id="@+id/txt_odp_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="ODP"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
-            app:layout_constraintEnd_toStartOf="@id/txt_pdp_info"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_positive" />
+            <!--  #################################################  -->
 
-        <TextView
-            android:id="@+id/txt_odp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{covid.jumlahOdp.toString()}"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
-            app:layout_constraintEnd_toEndOf="@id/txt_odp_info"
-            app:layout_constraintStart_toStartOf="@id/txt_odp_info"
-            app:layout_constraintTop_toBottomOf="@id/txt_odp_info"
-            tools:text="60000" />
+            <TextView
+                android:id="@+id/txt_odp_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="ODP"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
+                app:layout_constraintEnd_toStartOf="@id/txt_pdp_info"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_positive" />
 
-        <TextView
-            android:id="@+id/txt_pdp_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="PDP"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/txt_odp_info"
-            app:layout_constraintTop_toBottomOf="@id/txt_positive" />
+            <TextView
+                android:id="@+id/txt_odp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:textDecimalFormat="@{covid.jumlahOdp}"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
+                app:layout_constraintEnd_toEndOf="@id/txt_odp_info"
+                app:layout_constraintStart_toStartOf="@id/txt_odp_info"
+                app:layout_constraintTop_toBottomOf="@id/txt_odp_info"
+                tools:text="60000" />
 
-        <TextView
-            android:id="@+id/txt_pdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{covid.jumlahPdp.toString()}"
-            android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
-            app:layout_constraintEnd_toEndOf="@id/txt_pdp_info"
-            app:layout_constraintStart_toStartOf="@id/txt_pdp_info"
-            app:layout_constraintTop_toBottomOf="@id/txt_pdp_info"
-            tools:text="60000" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/txt_pdp_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="PDP"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txt_odp_info"
+                app:layout_constraintTop_toBottomOf="@id/txt_positive" />
+
+            <TextView
+                android:id="@+id/txt_pdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:textDecimalFormat="@{covid.jumlahPdp}"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
+                app:layout_constraintEnd_toEndOf="@id/txt_pdp_info"
+                app:layout_constraintStart_toStartOf="@id/txt_pdp_info"
+                app:layout_constraintTop_toBottomOf="@id/txt_pdp_info"
+                tools:text="60000" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 </layout>

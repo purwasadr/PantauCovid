@@ -15,7 +15,7 @@ import com.purwasadr.pantaucovid.data.source.local.entity.ProvinceHospitalEntity
         HospitalEntity::class
     ],
     version = 4,
-    exportSchema = false
+    exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun covidDao(): CovidDao
