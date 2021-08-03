@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "covid_data")
-data class CovidDataEntity(
+data class CovidRateEntity(
     @PrimaryKey
     val id: Long = 0,
     val dataJumlahOdp: Long? = null,
