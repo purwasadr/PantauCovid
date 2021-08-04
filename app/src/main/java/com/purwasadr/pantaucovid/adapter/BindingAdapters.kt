@@ -5,9 +5,23 @@ import androidx.databinding.BindingAdapter
 import com.purwasadr.pantaucovid.util.toDecimalFormat
 
 object BindingAdapters {
+
     @JvmStatic
-    @BindingAdapter("app:textDecimalFormat")
-    fun textDecimalFormat(textView: TextView, value: Int?) {
+    @BindingAdapter("textNegativePositive")
+    fun textNegativePositive(textView: TextView, value: Long?) {
+        if (value != null) {
+            textView.text = if (value > 0) {
+                "+" + value.toDecimalFormat()
+            } else {
+                value.toDecimalFormat()
+            }
+        }
+
+    }
+
+    @JvmStatic
+    @BindingAdapter("textTotalLong")
+    fun textTotalLong(textView: TextView, value: Long?) {
         textView.text = value?.toDecimalFormat()
     }
 }
