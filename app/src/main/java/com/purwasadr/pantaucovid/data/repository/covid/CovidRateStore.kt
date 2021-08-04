@@ -1,13 +1,13 @@
 package com.purwasadr.pantaucovid.data.repository.covid
 
-import com.purwasadr.pantaucovid.data.source.local.entity.CovidDataEntity
+import com.purwasadr.pantaucovid.data.source.local.entity.CovidRateEntity
 import com.purwasadr.pantaucovid.data.source.local.room.AppDatabase
 import javax.inject.Inject
 
 class CovidRateStore @Inject constructor(
     private val database: AppDatabase
 ) {
-    suspend fun insertEntity(entity: CovidDataEntity) {
+    suspend fun insertEntity(entity: CovidRateEntity) {
         database.covidDataDao().insert(entity)
     }
 
