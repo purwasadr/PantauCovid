@@ -5,23 +5,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <TextView
         android:id="@+id/txt_instruction_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pilih daerah rumah sakit" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Pilih daerah rumah sakit"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:hint="@string/hospital_til_hint_province">
         <!--        app:layout_scrollFlags="scroll|snap"-->
 
-        <AutoCompleteTextView
+        <com.purwasadr.pantaucovid.view.MyAutoCompleteTextView
             android:id="@+id/act_province"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +41,7 @@
         android:layout_marginEnd="32dp"
         android:hint="Kab / Kota">
 
-        <AutoCompleteTextView
+        <com.purwasadr.pantaucovid.view.MyAutoCompleteTextView
             android:id="@+id/act_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,10 +49,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_to_hospital_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Lihat daftar rumah sakit" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_hospital"
