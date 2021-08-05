@@ -50,16 +50,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun getCovidData() {
-//        viewModel.getCovidData.observe(viewLifecycleOwner) {
-//            when (it) {
-//                is Resource.Success -> {
-//                    it.data?.also { covid ->
-//                        binding.covid = covid
-//                    }
-//
-//                }
-//            }
-//        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.covidData.collectLatest {
                 when (it) {
