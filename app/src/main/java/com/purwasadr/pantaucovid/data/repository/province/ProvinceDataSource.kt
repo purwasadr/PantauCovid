@@ -11,6 +11,6 @@ class ProvinceDataSource @Inject constructor(
 ) {
 
     fun getProvince() = flowHandleRequest(defaultDispatcher) {
-        apiService.getProvince()
+        apiService.getProvince().provinces.orEmpty()
     }
 }
