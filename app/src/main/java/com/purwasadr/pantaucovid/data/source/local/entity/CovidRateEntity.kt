@@ -3,7 +3,7 @@ package com.purwasadr.pantaucovid.data.source.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "covid_data")
+@Entity(tableName = "covid_rate")
 data class CovidRateEntity(
     @PrimaryKey
     val id: Long = 0,
