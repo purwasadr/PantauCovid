@@ -6,7 +6,7 @@
 
         <variable
             name="covid"
-            type="com.purwasadr.pantaucovid.model.Covid" />
+            type="com.purwasadr.pantaucovid.data.source.local.entity.CovidRateEntity" />
 
     </data>
 
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Jumlah Kasus Hari ini"
+                android:text="@string/home_info"
                 android:textAppearance="?attr/textAppearanceHeadline5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,10 +33,13 @@
 
             <TextView
                 android:id="@+id/txt_positive_info"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
-                android:text="Positif"
+                android:layout_marginEnd="8dp"
+                android:text="@string/home_positive_info"
+                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
                 app:layout_constraintEnd_toStartOf="@id/txt_sembuh_info"
                 app:layout_constraintHorizontal_chainStyle="spread"
@@ -47,8 +50,8 @@
                 android:id="@+id/txt_positive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:textDecimalFormat="@{covid.jumlahPositif}"
+                textTotalLong="@{covid.totalJumlahPositif}"
+                android:layout_marginTop="@dimen/home_covid_rate_value_top"
                 android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
                 app:layout_constraintEnd_toEndOf="@id/txt_positive_info"
                 app:layout_constraintStart_toStartOf="@id/txt_positive_info"
@@ -56,11 +59,27 @@
                 tools:text="60000" />
 
             <TextView
-                android:id="@+id/txt_sembuh_info"
+                android:id="@+id/txt_positive_gain"
+                textNegativePositive="@{covid.penambahanJumlahPositif}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.ValueGain"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintEnd_toEndOf="@+id/txt_positive"
+                app:layout_constraintStart_toStartOf="@+id/txt_positive"
+                app:layout_constraintTop_toBottomOf="@+id/txt_positive"
+                tools:text="+22000" />
+
+            <TextView
+                android:id="@+id/txt_sembuh_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
                 android:text="Sembuh"
+                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
                 app:layout_constraintEnd_toStartOf="@id/txt_death_info"
                 app:layout_constraintStart_toEndOf="@id/txt_positive_info"
@@ -70,8 +89,8 @@
                 android:id="@+id/txt_sembuh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:textDecimalFormat="@{covid.jumlahSembuh}"
+                textTotalLong="@{covid.totalJumlahSembuh}"
+                android:layout_marginTop="@dimen/home_covid_rate_value_top"
                 android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
                 app:layout_constraintEnd_toEndOf="@id/txt_sembuh_info"
                 app:layout_constraintStart_toStartOf="@id/txt_sembuh_info"
@@ -79,11 +98,27 @@
                 tools:text="60000" />
 
             <TextView
-                android:id="@+id/txt_death_info"
+                android:id="@+id/txt_sembuuh_gain"
+                textNegativePositive="@{covid.penambahanJumlahSembuh}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.ValueGain"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintEnd_toEndOf="@id/txt_sembuh"
+                app:layout_constraintStart_toStartOf="@id/txt_sembuh"
+                app:layout_constraintTop_toBottomOf="@id/txt_sembuh"
+                tools:text="+22000" />
+
+            <TextView
+                android:id="@+id/txt_death_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
                 android:text="Meninggal"
+                android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txt_sembuh_info"
@@ -93,8 +128,8 @@
                 android:id="@+id/txt_death"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:textDecimalFormat="@{covid.jumlahMeninggal}"
+                textTotalLong="@{covid.totalJumlahMeninggal}"
+                android:layout_marginTop="@dimen/home_covid_rate_value_top"
                 android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
                 app:layout_constraintEnd_toEndOf="@id/txt_death_info"
                 app:layout_constraintStart_toStartOf="@id/txt_death_info"
@@ -104,51 +139,65 @@
             <!--  #################################################  -->
 
             <TextView
-                android:id="@+id/txt_odp_info"
+                android:id="@+id/txt_death_gain"
+                textNegativePositive="@{covid.penambahanJumlahMeninggal}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.ValueGain"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintEnd_toEndOf="@id/txt_death"
+                app:layout_constraintStart_toStartOf="@id/txt_death"
+                app:layout_constraintTop_toBottomOf="@id/txt_death"
+                tools:text="+22000" />
+
+            <TextView
+                android:id="@+id/txt_dirawat_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="ODP"
+                android:text="Dirawat"
                 android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
-                app:layout_constraintEnd_toStartOf="@id/txt_pdp_info"
-                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_positive" />
 
             <TextView
-                android:id="@+id/txt_odp"
+                android:id="@+id/txt_dirawat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:textDecimalFormat="@{covid.jumlahOdp}"
+                textTotalLong="@{covid.totalJumlahDirawat}"
+                android:layout_marginTop="@dimen/home_covid_rate_value_top"
                 android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
-                app:layout_constraintEnd_toEndOf="@id/txt_odp_info"
-                app:layout_constraintStart_toStartOf="@id/txt_odp_info"
-                app:layout_constraintTop_toBottomOf="@id/txt_odp_info"
-                tools:text="60000" />
-
-            <TextView
-                android:id="@+id/txt_pdp_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="PDP"
-                android:textAppearance="@style/TextAppearance.ToDo.Home.Info"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/txt_odp_info"
-                app:layout_constraintTop_toBottomOf="@id/txt_positive" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_dirawat_info"
+                tools:text="60000" />
 
             <TextView
-                android:id="@+id/txt_pdp"
+                android:id="@+id/txt_dirawat_gain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:textDecimalFormat="@{covid.jumlahPdp}"
-                android:textAppearance="@style/TextAppearance.ToDo.Home.Value"
-                app:layout_constraintEnd_toEndOf="@id/txt_pdp_info"
-                app:layout_constraintStart_toStartOf="@id/txt_pdp_info"
-                app:layout_constraintTop_toBottomOf="@id/txt_pdp_info"
-                tools:text="60000" />
+                textNegativePositive="@{covid.penambahanJumlahDirawat}"
+                android:layout_marginTop="2dp"
+                android:textAppearance="@style/TextAppearance.ToDo.Home.ValueGain"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintEnd_toEndOf="@id/txt_dirawat"
+                app:layout_constraintStart_toStartOf="@id/txt_dirawat"
+                app:layout_constraintTop_toBottomOf="@id/txt_dirawat"
+                tools:text="+22000" />
+
+            <TextView
+                android:id="@+id/txt_last_updated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="TextView"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_dirawat_gain" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
