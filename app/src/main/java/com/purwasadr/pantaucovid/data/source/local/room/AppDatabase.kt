@@ -3,26 +3,26 @@ package com.purwasadr.pantaucovid.data.source.local.room
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.purwasadr.pantaucovid.data.source.local.entity.CityEntity
-import com.purwasadr.pantaucovid.data.source.local.entity.CovidEntity
+import com.purwasadr.pantaucovid.data.source.local.entity.CovidRateEntity
 import com.purwasadr.pantaucovid.data.source.local.entity.HospitalEntity
-import com.purwasadr.pantaucovid.data.source.local.entity.ProvinceHospitalEntity
+import com.purwasadr.pantaucovid.data.source.local.entity.ProvinceEntity
 
 @Database(
     entities = [
-        CovidEntity::class,
-        ProvinceHospitalEntity::class,
+        CovidRateEntity::class,
+        ProvinceEntity::class,
         CityEntity::class,
-        HospitalEntity::class
+        HospitalEntity::class,
     ],
-    version = 4,
-    exportSchema = true
+    version = 6,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun covidDao(): CovidDao
-
-    abstract fun provinceDao(): ProvinceHospitalDao
+    abstract fun provinceDao(): ProvinceDao
 
     abstract fun cityDao(): CityDao
 
     abstract fun hospitalDao(): HospitalDao
+
+    abstract fun covidDataDao(): CovidRateDao
 }
