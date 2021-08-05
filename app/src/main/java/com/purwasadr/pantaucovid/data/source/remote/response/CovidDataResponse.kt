@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName
 data class CovidDataResponse(
 
     @field:SerializedName("jumlah_odp")
-    val jumlahOdp: Int? = null,
+    val jumlahOdp: Long? = null,
 
     @field:SerializedName("jumlah_pdp")
-    val jumlahPdp: Int? = null,
+    val jumlahPdp: Long? = null,
 
     @field:SerializedName("total_spesimen")
-    val totalSpesimen: Int? = null,
+    val totalSpesimen: Long? = null,
 
     @field:SerializedName("total_spesimen_negatif")
-    val totalSpesimenNegatif: Int? = null,
+    val totalSpesimenNegatif: Long? = null,
 
     @field:SerializedName("id")
-    val id: Int? = null
+    val id: Long? = null
 )
