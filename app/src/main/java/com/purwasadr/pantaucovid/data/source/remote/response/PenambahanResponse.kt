@@ -8,17 +8,17 @@ data class PenambahanResponse(
     val created: String? = null,
 
     @field:SerializedName("jumlah_meninggal")
-    val jumlahMeninggal: Int? = null,
+    val jumlahMeninggal: Long? = null,
 
     @field:SerializedName("tanggal")
     val tanggal: String? = null,
 
     @field:SerializedName("jumlah_sembuh")
-    val jumlahSembuh: Int? = null,
+    val jumlahSembuh: Long? = null,
 
     @field:SerializedName("jumlah_positif")
-    val jumlahPositif: Int? = null,
+    val jumlahPositif: Long? = null,
 
     @field:SerializedName("jumlah_dirawat")
-    val jumlahDirawat: Int? = null
+    val jumlahDirawat: Long? = null
 )
