@@ -11,6 +11,6 @@ class CityDataSource  @Inject constructor(
 ) {
 
     fun getCities(provinceId: String) = flowHandleRequest(defaultDispatcher) {
-        apiService.getCities(provinceId)
+        apiService.getCities(provinceId).cities.orEmpty()
     }
 }
