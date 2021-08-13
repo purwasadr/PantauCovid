@@ -21,8 +21,7 @@ abstract class ProvinceDao {
 
     @Transaction
     open suspend fun delSert(entity:  List<ProvinceEntity>) {
-        insert(entity)
         deleteAll()
+        insert(entity)
     }
-
 }
