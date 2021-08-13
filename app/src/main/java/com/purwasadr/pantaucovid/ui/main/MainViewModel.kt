@@ -1,13 +1,16 @@
 package com.purwasadr.pantaucovid.ui.main
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.purwasadr.pantaucovid.data.IAppRepository
 import com.purwasadr.pantaucovid.data.Resource
+import com.purwasadr.pantaucovid.data.repository.city.CityRepository
+import com.purwasadr.pantaucovid.data.repository.covid.CovidRateRepository
+import com.purwasadr.pantaucovid.data.repository.hospital.HospitalRepository
+import com.purwasadr.pantaucovid.data.repository.province.ProvinceRepository
 import com.purwasadr.pantaucovid.data.source.local.entity.CityEntity
+import com.purwasadr.pantaucovid.data.source.local.entity.CovidRateEntity
 import com.purwasadr.pantaucovid.data.source.local.entity.HospitalEntity
-import com.purwasadr.pantaucovid.model.Covid
+import com.purwasadr.pantaucovid.model.City
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -20,17 +23,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: IAppRepository
+    private val covidRateRepository: CovidRateRepository,
+    private val provinceRepository: ProvinceRepository,
+    private val cityRepository: CityRepository,
+    private val hospitalRepository: HospitalRepository
 ) : ViewModel() {
-    private val _covidData = MutableStateFlow<Resource<Covid?>>(Resource.Loading())
+    private val _covidData = MutableStateFlow<Resource<CovidRateEntity?>>(Resource.Loading())
 
-    val covidData: StateFlow<Resource<Covid?>> = _covidData
+    val covidData: StateFlow<Resource<CovidRateEntity?>> = _covidData
+
+    var provincePos: Int = 0
+
+    var cityPos: Int = 0
 
     private var covidJob: Job? = null
 
     init {
         covidJob = viewModelScope.launch {
-            repository.getCovidData().collect {
+            covidRateRepository.getCovidRate().collect {
                 _covidData.value = it
             }
         }.also { it.invokeOnCompletion { Timber.d("collect init complete") } }
@@ -39,7 +49,7 @@ class MainViewModel @Inject constructor(
     fun refreshCovidData() {
         covidJob?.cancel()
         covidJob = viewModelScope.launch {
-            repository.getCovidData().collect {
+            covidRateRepository.getCovidRate().collect {
                 _covidData.value = it
             }
         }.also {
@@ -49,21 +59,19 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    val getCovidData = repository.getCovidData().asLiveData()
-
-    val province = repository.getProvinceList().asLiveData()
+    val province = provinceRepository.getProvinces()
 
     var cities: Flow<Resource<List<CityEntity>>>? = null
 
     var hospitals: Flow<Resource<List<HospitalEntity>>>? = null
 
-    fun getCities(id: String): Flow<Resource<List<CityEntity>>> {
+    fun getCities(id: String): Flow<Resource<List<City>>> {
 
-        return repository.getCities(id)
+        return cityRepository.getCities(id)
     }
 
     fun getHospitals(provinceId: String, cityId: String): Flow<Resource<List<HospitalEntity>>> {
 
-        return repository.getHospitals(provinceId, cityId)
+        return hospitalRepository.getHospitals(provinceId, cityId)
     }
 }
