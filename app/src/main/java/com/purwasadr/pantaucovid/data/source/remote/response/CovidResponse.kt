@@ -1,7 +1,7 @@
 package com.purwasadr.pantaucovid.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
-import com.purwasadr.pantaucovid.data.source.local.entity.CovidEntity
+import com.purwasadr.pantaucovid.data.source.local.entity.CovidRateEntity
 
 data class CovidResponse(
     @field:SerializedName("data")
@@ -12,11 +12,21 @@ data class CovidResponse(
 )
 
 fun CovidResponse.toEntity() =
-    CovidEntity(
-        jumlahPositif = this.update?.total?.jumlahPositif,
-        jumlahSembuh = this.update?.total?.jumlahSembuh,
-        jumlahMeninggal = this.update?.total?.jumlahMeninggal,
-        jumlahOdp = this.data?.jumlahOdp,
-        jumlahPdp = this.data?.jumlahPdp,
-        id = 1
-    )
+    this.run {
+        CovidRateEntity(
+            dataJumlahOdp = data?.jumlahOdp,
+            dataJumlahPdp = data?.jumlahPdp,
+            dataTotalSpesimen = data?.totalSpesimen,
+            dataTotalSpesimenNegatif = data?.totalSpesimenNegatif,
+            penambahanCreated = update?.penambahan?.created,
+            penambahanJumlahMeninggal = update?.penambahan?.jumlahMeninggal,
+            penambahanTanggal = update?.penambahan?.tanggal,
+            penambahanJumlahSembuh = update?.penambahan?.jumlahSembuh,
+            penambahanJumlahPositif = update?.penambahan?.jumlahPositif,
+            penambahanJumlahDirawat = update?.penambahan?.jumlahDirawat,
+            totalJumlahMeninggal = update?.total?.jumlahMeninggal,
+            totalJumlahSembuh = update?.total?.jumlahSembuh,
+            totalJumlahPositif = update?.total?.jumlahPositif,
+            totalJumlahDirawat = update?.total?.jumlahDirawat,
+        )
+    }
