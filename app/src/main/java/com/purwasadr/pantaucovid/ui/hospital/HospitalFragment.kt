@@ -1,27 +1,27 @@
 package com.purwasadr.pantaucovid.ui.hospital
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.purwasadr.pantaucovid.R
-import com.purwasadr.pantaucovid.adapter.HospitalAdapter
+import com.purwasadr.pantaucovid.adapter.DropDownAdapter
 import com.purwasadr.pantaucovid.data.Resource
-import com.purwasadr.pantaucovid.data.source.local.entity.CityEntity
-import com.purwasadr.pantaucovid.data.source.local.entity.HospitalEntity
 import com.purwasadr.pantaucovid.databinding.FragmentHospitalBinding
+import com.purwasadr.pantaucovid.model.City
 import com.purwasadr.pantaucovid.model.Province
+import com.purwasadr.pantaucovid.ui.hospitallist.HospitalListActivity
 import com.purwasadr.pantaucovid.ui.main.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
+@AndroidEntryPoint
 class HospitalFragment : Fragment() {
     private var _binding: FragmentHospitalBinding? = null
 
@@ -31,11 +31,17 @@ class HospitalFragment : Fragment() {
 
     private var cityJob: Job? = null
 
-    private var hospitalsJob: Job? = null
-
-    private val listAdapter by lazy {
-        HospitalAdapter()
+    private val cityAdapter by lazy {
+        DropDownAdapter(requireContext())
     }
+
+    private val provinceAdapter by lazy {
+        DropDownAdapter(requireContext())
+    }
+
+    private var cityList: List<City>? = null
+
+    private var provinceList: List<Province>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,48 +61,75 @@ class HospitalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupListHospital()
+        setupBtnToHospitalList()
+        setupDropDownView()
         getProvince()
     }
 
-    private fun setupListHospital() {
-        binding.listHospital.setHasFixedSize(true)
-        binding.listHospital.layoutManager = LinearLayoutManager(requireContext())
-        binding.listHospital.adapter = listAdapter
+    private fun setupBtnToHospitalList() {
+        binding.btnToHospitalList.setOnClickListener {
+            val provinceId = provinceList!!.get(viewModel.provincePos - 1).id
+            val cityId = cityList!!.get(viewModel.cityPos - 1).id
+
+            navigateToHospitalList(provinceId, cityId)
+        }
     }
 
-    private fun getProvince() {
-        viewModel.province.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Success -> {
-                    it.data?.also { data ->
+    private fun navigateToHospitalList(provinceId: String, cityId: String) {
+        Intent(requireContext(), HospitalListActivity::class.java)
+            .putExtra(HospitalListActivity.EXTRA_PROVINCE_ID, provinceId)
+            .putExtra(HospitalListActivity.EXTRA_CITY_ID, cityId)
+            .also {
+                startActivity(it)
+            }
+    }
 
-                        updateProvinceDropDown(data)
-                    }
+    private fun setupDropDownView() {
+        if (viewModel.provincePos == 0) {
+            dropProvinceDropDown()
+            dropCityDropDown()
+        }
 
-                }
-                is Resource.Loading -> {
-                    dropProvinceDropDown()
-                    dropCityDropDown()
+        binding.actProvince.setAdapter(provinceAdapter)
+        binding.actProvince.setOnItemSelected {
+            if (it == 0) {
+                dropCityDropDown()
+                binding.actCity.isEnabled = false
+            } else {
+                viewModel.provincePos = it
+                provinceList?.get(it - 1)?.also { province ->
+                    getCities(province.id)
                 }
             }
         }
-    }
-    private fun dropProvinceDropDown() {
-        val items = listOf("Belum Memilih")
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, items)
-        binding.actProvince.setAdapter(adapter)
-        binding.actProvince.setText("Belum Memilih")
+
+        binding.actCity.setAdapter(cityAdapter)
+        binding.actCity.setOnItemSelected {
+            viewModel.cityPos = it
+            enableBtnToHospitalList()
+        }
     }
 
-    private fun updateProvinceDropDown(data: List<Province>, ) {
-        val items = listOf("Belum Memilih") + data.map { it.name }
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, items)
-        binding.actProvince.setAdapter(adapter)
-        binding.actProvince.setOnItemClickListener { parent, view, position, id ->
-            Timber.d("Sswwww")
-            if (position == 0) return@setOnItemClickListener
-            getCities(data.get(position - 1).id)
+    private fun enableBtnToHospitalList() {
+        binding.btnToHospitalList.isEnabled = viewModel.provincePos != 0 && viewModel.cityPos != 0
+    }
+
+    private fun getProvince() {
+        lifecycleScope.launch {
+            viewModel.province.collectLatest {
+                when (it) {
+                    is Resource.Success -> {
+                        it.data?.also { data ->
+                            updateProvinceDropDown(data)
+                        }
+                        binding.actProvince.isEnabled = true
+                    }
+
+                    is Resource.Loading -> {
+                        binding.actProvince.isEnabled = false
+                    }
+                }
+            }
         }
     }
 
@@ -107,63 +140,50 @@ class HospitalFragment : Fragment() {
             viewModel.getCities(id).collect {
                 when (it) {
                     is Resource.Loading -> {
-                       dropCityDropDown()
+                        dropCityDropDown()
+                        binding.actCity.isEnabled = false
                     }
                     is Resource.Success -> {
                         it.data?.also { data ->
-                            updateCityDropDown(data, id)
-
+                            updateCityDropDown(data)
                         }
+                        binding.actCity.isEnabled = true
                     }
                 }
             }
-
-
         }
+    }
+
+    private fun dropProvinceDropDown() {
+        val items = listOf("Belum Memilih")
+        provinceAdapter.submitData(items)
+        binding.actProvince.selectedPosition = 0
     }
 
     private fun dropCityDropDown() {
         val items = listOf("Belum Memilih")
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, items)
-        binding.actCity.setAdapter(adapter)
-        binding.actCity.setText("Belum Memilih")
-        binding.actCity.setOnItemClickListener { parent, view, position, id ->
-            Timber.d("Ssowdowwodwodwoodwowowwowowoswwww")
-        }
+        cityAdapter.submitData(items)
+        binding.actCity.selectedPosition = 0
     }
 
-    private fun updateCityDropDown(data: List<CityEntity>, provinceId: String) {
+    private fun updateCityDropDown(data: List<City>) {
+        val items = listOf("Belum Memilih") + data.map { it.name ?: "" }
+        cityList = data
+        cityAdapter.submitData(items)
+    }
+
+    private fun updateProvinceDropDown(data: List<Province>) {
         val items = listOf("Belum Memilih") + data.map { it.name }
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item_dropdown, items)
-        binding.actCity.setAdapter(adapter)
-        binding.actCity.setOnItemClickListener { parent, view, position, id ->
-            if (position == 0) return@setOnItemClickListener
-            getHospitals(provinceId, data.get(position - 1).id)
-        }
+        provinceList = data
+        provinceAdapter.submitData(items)
     }
 
-    private fun getHospitals(proviceId: String, cityId: String) {
-        hospitalsJob?.cancel()
-
-        hospitalsJob = viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getHospitals(proviceId, cityId).collect {
-                when (it) {
-                    is Resource.Loading -> {
-
-                    }
-                    is Resource.Success -> {
-                        it.data?.also { data ->
-                            updateListAdapter(data)
-                        }
-
-                    }
-                }
-            }
-
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    private fun updateListAdapter(hospitals: List<HospitalEntity>) {
-        listAdapter.submitList(hospitals)
+    companion object {
+        const val NOT_CHOICE = "not_choice"
     }
 }
