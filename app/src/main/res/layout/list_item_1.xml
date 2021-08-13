@@ -11,5 +11,5 @@
     android:paddingEnd="16dp"
     android:paddingBottom="16dp"
     android:singleLine="true"
-    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+    android:textAppearance="?attr/textAppearanceSubtitle1"
     tools:text="Item 1" />

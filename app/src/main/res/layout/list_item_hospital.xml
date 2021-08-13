@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="hospital"
             type="com.purwasadr.pantaucovid.data.source.local.entity.HospitalEntity" />
@@ -51,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@{`Sisa ` + hospital.bedAvailability.toString() + ` Bed`}"
-            android:textAppearance="@style/TextAppearance.ToDo.Caption"
+            android:textAppearance="?attr/textAppearanceCaption"
             app:layout_constraintBaseline_toBaselineOf="@id/txt_hospital_name"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
