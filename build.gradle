@@ -29,6 +29,7 @@ buildscript {
         coreKtxVersion = '1.6.0'
         loggingInterceptorVersion = '4.9.1'
         lifecycleVersion = '2.4.0-alpha03'
+        truthVersion = '1.1.3'
     }
     repositories {
         google()

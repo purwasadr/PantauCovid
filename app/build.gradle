@@ -85,6 +85,7 @@ dependencies {
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "com.google.truth:truth:$truthVersion"
 
 
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
