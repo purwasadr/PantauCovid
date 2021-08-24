@@ -1,20 +1,17 @@
-package com.purwasadr.data.repository
+package com.purwasadr.pantaucovid.data.repository.province
 
+import com.google.common.truth.Truth
 import com.purwasadr.pantaucovid.data.Resource
 import com.purwasadr.pantaucovid.data.mapper.ProvinceEntityToDomain
 import com.purwasadr.pantaucovid.data.mapper.ProvinceResponseToEntity
-import com.purwasadr.pantaucovid.data.repository.province.ProvinceDataSource
-import com.purwasadr.pantaucovid.data.repository.province.ProvinceRepository
-import com.purwasadr.pantaucovid.data.repository.province.ProvinceStore
 import com.purwasadr.pantaucovid.data.source.local.entity.ProvinceEntity
 import com.purwasadr.pantaucovid.data.source.remote.network.ApiResponse
 import com.purwasadr.pantaucovid.data.source.remote.response.ProvincesItemResponse
 import com.purwasadr.pantaucovid.model.Province
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.runBlocking
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.anyList
@@ -33,8 +30,9 @@ class ProvinceRepositoryTest {
         ProvinceEntityToDomain()
     )
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getProvince() = runBlocking {
+    fun getProvince() = runBlockingTest {
         val listProvince = listOf<ProvincesItemResponse>(
             ProvincesItemResponse("cir1","Cirebon"),
             ProvincesItemResponse("bek1","Bekasi")
@@ -71,7 +69,7 @@ class ProvinceRepositoryTest {
         verify(localDataSource).getEntries()
         verify(localDataSource).delsertEntities(anyList())
 
-        assertThat(actual, `is`(data))
+        Truth.assertThat(actual).isEqualTo(data)
     }
 
 }
