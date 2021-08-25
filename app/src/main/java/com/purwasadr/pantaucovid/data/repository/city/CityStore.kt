@@ -1,9 +1,11 @@
 package com.purwasadr.pantaucovid.data.repository.city
 
+import com.purwasadr.pantaucovid.OpenForTesting
 import com.purwasadr.pantaucovid.data.source.local.entity.CityEntity
 import com.purwasadr.pantaucovid.data.source.local.room.AppDatabase
 import javax.inject.Inject
 
+@OpenForTesting
 class CityStore @Inject constructor(
     private val database: AppDatabase
 ) {

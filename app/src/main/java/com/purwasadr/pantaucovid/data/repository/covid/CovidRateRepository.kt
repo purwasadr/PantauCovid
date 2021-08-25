@@ -1,5 +1,6 @@
 package com.purwasadr.pantaucovid.data.repository.covid
 
+import com.purwasadr.pantaucovid.OpenForTesting
 import com.purwasadr.pantaucovid.data.NetworkBoundResource
 import com.purwasadr.pantaucovid.data.source.local.entity.CovidRateEntity
 import com.purwasadr.pantaucovid.data.source.remote.network.ApiResponse
@@ -8,6 +9,7 @@ import com.purwasadr.pantaucovid.data.source.remote.response.toEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+@OpenForTesting
 class CovidRateRepository @Inject constructor(
     private val dataSource: CovidRateDataSource,
     private val store: CovidRateStore

@@ -1,5 +1,6 @@
 package com.purwasadr.pantaucovid.data.repository.province
 
+import com.purwasadr.pantaucovid.OpenForTesting
 import com.purwasadr.pantaucovid.data.NetworkBoundResource
 import com.purwasadr.pantaucovid.data.mapper.ProvinceEntityToDomain
 import com.purwasadr.pantaucovid.data.mapper.ProvinceResponseToEntity
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+@OpenForTesting
 class ProvinceRepository @Inject constructor(
     private val dataSource: ProvinceDataSource,
     private val store: ProvinceStore,
