@@ -5,10 +5,16 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-allopen'
 }
 
 kapt {
     correctErrorTypes true
+}
+
+allOpen {
+    // allows mocking for classes w/o directly opening them for release builds
+    annotation 'com.purwasadr.pantaucovid.OpenForTesting'
 }
 
 android {
@@ -22,7 +28,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.purwasadr.pantaucovid.ui.CustomTestRunner"
     }
 
     buildTypes {
@@ -39,6 +45,9 @@ android {
         viewBinding true
         dataBinding true
     }
+    testOptions.unitTests {
+        includeAndroidResources = true
+    }
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -53,6 +62,7 @@ dependencies {
 
     implementation "androidx.activity:activity-ktx:$activityKtxVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
@@ -64,7 +74,9 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    kapt "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    kaptAndroidTest "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -84,16 +96,20 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoVersion"
-    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion"
+   // testImplementation "org.mockito:mockito-inline:$mockitoVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
 
 
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
     androidTestImplementation "androidx.test.ext:junit-ktx:$testExtJunitVersion"
-    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
     androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
+    androidTestImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion"
+   // androidTestImplementation "org.mockito:mockito-inline:$mockitoVersion"
+   // androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+  //  androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito-inline:2.28.1"
+    androidTestImplementation "com.google.truth:truth:$truthVersion"
     androidTestImplementation "androidx.test:core-ktx:$androidXTestVersion"
     androidTestImplementation "androidx.test:rules:$testRulesVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
