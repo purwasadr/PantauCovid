@@ -22,6 +22,6 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("textTotalLong")
     fun textTotalLong(textView: TextView, value: Long?) {
-        textView.text = value?.toDecimalFormat()
+        textView.text = value?.toDecimalFormat().orEmpty()
     }
 }
