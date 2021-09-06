@@ -1,10 +1,10 @@
 package com.purwasadr.pantaucovid.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -34,12 +34,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupToolbar()
-        setupBottomNavigation(savedInstanceState)
+        setupBottomNavigation()
     }
 
-    private fun setupBottomNavigation(savedInstanceState: Bundle?) {
+    private fun setupBottomNavigation() {
         appBarConfiguration = AppBarConfiguration(
-            topLevelDestinationIds = setOf(R.id.homeFragment, R.id.homeFragment),
+            topLevelDestinationIds = setOf(R.id.homeFragment, R.id.hospitalFragment),
         )
 
         binding.bottomNavMain.setupWithNavController(navController)
